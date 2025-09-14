@@ -22,6 +22,8 @@ def load_chat_tts_model(source='huggingface', force_redownload=False, local_path
     """
     print("Loading ChatTTS model...")
     chat = ChatTTS.Chat()
+    # 添加 BertTokenizerFast 到安全全局变量白名单
+    torch.serialization.add_safe_globals([BertTokenizerFast])
     chat.load_models(source=source, force_redownload=force_redownload, custom_path=local_path, compile=False)
     return chat
 
