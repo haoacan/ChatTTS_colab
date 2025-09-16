@@ -1033,4 +1033,4 @@ with gr.Blocks() as demo:
             outputs=[script_audio]
         )
 
-demo.launch(share=args.share, inbrowser=True)
+demo.launch(share=True, inbrowser=True)
