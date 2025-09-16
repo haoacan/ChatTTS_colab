@@ -25,6 +25,12 @@ def load_chat_tts_model(source='huggingface', force_redownload=False, local_path
     # 添加 BertTokenizerFast 到安全全局变量白名单
     torch.serialization.add_safe_globals([BertTokenizerFast])
     chat.load_models(source=source, force_redownload=force_redownload, custom_path=local_path, compile=False)
+    # 确保 tokenizer 的 pad_token 已设置
+    if hasattr(chat, 'models') and 'tokenizer' in chat.models:
+        tokenizer = chat.models['tokenizer']
+        if tokenizer.pad_token is None:
+            tokenizer.pad_token = tokenizer.eos_token or '[PAD]'  # 使用 eos_token 或默认 '[PAD]'
+            print("Set pad_token for tokenizer:", tokenizer.pad_token)
     return chat
 
 
